@@ -1,113 +1,46 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="zh-CN">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Zhang Yitong | 个人主页</title>
-  <link rel="stylesheet" href="style.css" />
-  <!-- 引入 Chart.js (雷达图用) -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <meta charset="UTF-8">
+  <title>我的个人主页</title>
+  <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="light">
+
   <!-- 导航栏 -->
   <nav>
-    <div class="logo">Zhang Yitong</div>
+    <h2>My Portfolio</h2>
     <ul>
-      <li><a href="#hero" title="第一印象：打字机自我介绍">首页</a></li>
-      <li><a href="#about" title="关于我与技能展示">关于我</a></li>
-      <li><a href="#projects" title="展示项目与作品">项目</a></li>
-      <li><a href="#story" title="互动式人生时间轴">故事</a></li>
-      <li><a href="#hobbies" title="兴趣爱好与个性">兴趣</a></li>
-      <li><a href="#blog" title="轻量级博客">博客</a></li>
-      <li><a href="#contact" title="联系方式">联系</a></li>
+      <li><a href="#hero">首页</a></li>
+      <li><a href="#about">关于我</a></li>
+      <li><a href="#projects">项目</a></li>
+      <li><a href="#hobbies">兴趣</a></li>
     </ul>
     <button id="theme-toggle">☀️</button>
   </nav>
 
-  <!-- Hero -->
+  <!-- Hero 区域 -->
   <section id="hero">
     <h1 id="typewriter"></h1>
   </section>
 
-  <!-- About -->
+  <!-- 关于我 -->
   <section id="about">
     <h2>关于我</h2>
-    <p>你好，我是 Zhang Yitong，一名 AI × 医疗 方向的开发者。</p>
-
-    <!-- 技能条 -->
-    <div class="skills">
-      <div class="skill">
-        <span>JavaScript</span>
-        <div class="bar"><div class="progress" data-percent="85"></div></div>
-      </div>
-      <div class="skill">
-        <span>Vue</span>
-        <div class="bar"><div class="progress" data-percent="80"></div></div>
-      </div>
-      <div class="skill">
-        <span>Node.js</span>
-        <div class="bar"><div class="progress" data-percent="75"></div></div>
-      </div>
-    </div>
-
-    <!-- 雷达图 -->
-    <canvas id="skillsChart" width="300" height="300"></canvas>
+    <div id="timeline"></div>
   </section>
 
-  <!-- Projects -->
+  <!-- 我的技能 -->
   <section id="projects">
-    <h2>我的项目</h2>
-    <p>一些代表性项目展示</p>
-    <ul>
-      <li>药物协同作用预测系统</li>
-      <li>个人时间胶囊系统</li>
-      <li>儿童编程教育个性化反馈研究</li>
-    </ul>
+    <h2>技能图</h2>
+    <canvas id="skillsChart"></canvas>
   </section>
 
-  <!-- Story 时间轴 -->
-  <section id="story">
-    <h2>我的故事</h2>
-    <div class="timeline">
-      <div class="timeline-item">
-        <span class="year">2023</span>
-        <p>开始探索 AI 与医疗的结合</p>
-      </div>
-      <div class="timeline-item">
-        <span class="year">2024</span>
-        <p>参与药物协同作用预测研究</p>
-      </div>
-      <div class="timeline-item">
-        <span class="year">2025</span>
-        <p>前往香港理工大学交流</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- Hobbies -->
-  <section id="hobbies">
-    <h2>兴趣爱好</h2>
-    <p>喜欢画画、做手工、哈利波特，以及发掘 AI 的无限可能。</p>
-  </section>
-
-  <!-- Blog -->
-  <section id="blog">
-    <h2>我的博客</h2>
-    <p>（未来会接入 Markdown 动态加载）</p>
-  </section>
-
-  <!-- Contact -->
-  <section id="contact">
-    <h2>联系我</h2>
-    <p>Email: your-email@example.com</p>
-    <p>GitHub: <a href="https://github.com/your-username">your-username</a></p>
-  </section>
-
-  <!-- Footer -->
   <footer>
-    <p>© 2025 Zhang Yitong | Coding the future, one molecule at a time.</p>
+    <p>© 2025 我的主页</p>
   </footer>
 
-  <script src="script.js"></script>
+  <!-- 脚本入口 -->
+  <script type="module" src="js/main.js"></script>
 </body>
 </html>
