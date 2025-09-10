@@ -1,96 +1,60 @@
-/* 全局 */
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #fff;
-  color: #333;
-  transition: background 0.3s, color 0.3s;
-}
+// 日夜模式切换
+const toggleBtn = document.getElementById("theme-toggle");
+toggleBtn.addEventListener("click", () => {
+  document.body.classList.toggle("dark");
+  toggleBtn.textContent = document.body.classList.contains("dark") ? "🌙" : "☀️";
+});
 
-body.dark {
-  background: #121212;
-  color: #eee;
-}
+// 动态打字机
+const texts = [
+  "你好，我是 Zhang Yitong",
+  "AI × 医疗 开发者",
+  "专注 药物协同预测 与 边缘计算",
+  "Slytherin · INTJ · 无限可能"
+];
+let count = 0, index = 0, currentText = "", letter = "";
+function type() {
+  if (count === texts.length) count = 0;
+  currentText = texts[count];
+  letter = currentText.slice(0, ++index);
 
-/* 导航栏 */
-nav {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1em 2em;
-  background: #f5f5f5;
-  position: sticky;
-  top: 0;
+  document.getElementById("typewriter").textContent = letter;
+  if (letter.length === currentText.length) {
+    setTimeout(() => {
+      index = 0;
+      count++;
+      type();
+    }, 1500);
+  } else {
+    setTimeout(type, 100);
+  }
 }
+type();
 
-nav ul {
-  display: flex;
-  list-style: none;
-  gap: 1em;
-}
+// 技能条 Intersection Observer
+const skills = document.querySelectorAll(".progress");
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const percent = entry.target.getAttribute("data-percent");
+      entry.target.style.width = percent + "%";
+    }
+  });
+}, { threshold: 0.5 });
+skills.forEach(skill => observer.observe(skill));
 
-nav a {
-  text-decoration: none;
-  color: inherit;
-}
-
-#theme-toggle {
-  font-size: 1.2em;
-  border: none;
-  background: none;
-  cursor: pointer;
-}
-
-/* Hero */
-#hero {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 70vh;
-  font-size: 2em;
-  text-align: center;
-}
-
-/* About - 技能条 */
-.skills {
-  margin-top: 20px;
-}
-.skill {
-  margin: 10px 0;
-}
-.bar {
-  background: #ddd;
-  border-radius: 8px;
-  overflow: hidden;
-}
-.progress {
-  height: 20px;
-  background: #4caf50;
-  width: 0%;
-  transition: width 1s ease;
-}
-
-/* 时间轴 */
-.timeline {
-  border-left: 2px solid #999;
-  margin: 20px;
-  padding-left: 20px;
-}
-.timeline-item {
-  margin: 20px 0;
-  position: relative;
-}
-.timeline-item::before {
-  content: "";
-  position: absolute;
-  left: -10px;
-  top: 5px;
-  width: 15px;
-  height: 15px;
-  background: #4caf50;
-  border-radius: 50%;
-}
-.year {
-  font-weight: bold;
-}
-
+// 雷达图
+const ctx = document.getElementById("skillsChart");
+new Chart(ctx, {
+  type: "radar",
+  data: {
+    labels: ["科研", "开发", "创新", "协作", "审美"],
+    datasets: [{
+      label: "技能分布",
+      data: [85, 80, 88, 70, 75],
+      backgroundColor: "rgba(76,175,80,0.2)",
+      borderColor: "#4caf50"
+    }]
+  },
+  options: { responsive: true }
+});
