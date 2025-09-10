@@ -1,308 +1,227 @@
-// main.js - 入口文件，统一加载功能
+// themeToggle.js - 日夜模式切换功能
 
-document.addEventListener('DOMContentLoaded', function() {
-    // 初始化所有功能模块
-    initializeApp();
-});
-
-function initializeApp() {
-    // 初始化导航栏
-    initNavigation();
-    
-    // 初始化滚动动画
-    initScrollAnimations();
-    
-    // 初始化表单处理
-    initContactForm();
-    
-    // 初始化博客功能
-    initBlogCards();
-    
-    // 平滑滚动
-    initSmoothScroll();
-    
-    console.log('个人主页已加载完成！');
-}
-
-// 导航栏功能
-function initNavigation() {
-    const hamburger = document.querySelector('.hamburger');
-    const navMenu = document.querySelector('.nav-menu');
-    const navLinks = document.querySelectorAll('.nav-link');
-
-    // 移动端导航切换
-    if (hamburger && navMenu) {
-        hamburger.addEventListener('click', function() {
-            hamburger.classList.toggle('active');
-            navMenu.classList.toggle('active');
-        });
+class ThemeToggle {
+    constructor() {
+        this.themeToggleBtn = document.getElementById('theme-toggle');
+        this.themeIcon = document.querySelector('.theme-icon');
+        this.currentTheme = this.getStoredTheme() || 'light';
+        
+        this.init();
     }
-
-    // 点击导航链接关闭移动端菜单
-    navLinks.forEach(link => {
-        link.addEventListener('click', function() {
-            if (hamburger && navMenu) {
-                hamburger.classList.remove('active');
-                navMenu.classList.remove('active');
-            }
-        });
-    });
-
-    // 滚动时导航栏样式变化
-    let lastScrollTop = 0;
-    const navbar = document.querySelector('.navbar');
     
-    window.addEventListener('scroll', function() {
-        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    init() {
+        // 设置初始主题
+        this.setTheme(this.currentTheme);
         
-        if (scrollTop > lastScrollTop && scrollTop > 100) {
-            // 向下滚动，隐藏导航栏
-            navbar.style.transform = 'translateY(-100%)';
-        } else {
-            // 向上滚动，显示导航栏
-            navbar.style.transform = 'translateY(0)';
+        // 绑定事件监听器
+        this.bindEvents();
+        
+        // 监听系统主题变化
+        this.watchSystemTheme();
+    }
+    
+    bindEvents() {
+        if (this.themeToggleBtn) {
+            this.themeToggleBtn.addEventListener('click', () => {
+                this.toggleTheme();
+            });
+            
+            // 添加键盘支持
+            this.themeToggleBtn.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    this.toggleTheme();
+                }
+            });
+        }
+    }
+    
+    toggleTheme() {
+        const newTheme = this.currentTheme === 'light' ? 'dark' : 'light';
+        this.setTheme(newTheme);
+        this.storeTheme(newTheme);
+    }
+    
+    setTheme(theme) {
+        this.currentTheme = theme;
+        
+        // 设置文档主题属性
+        document.documentElement.setAttribute('data-theme', theme);
+        
+        // 更新按钮图标
+        this.updateThemeIcon(theme);
+        
+        // 添加切换动画
+        this.addThemeTransition();
+        
+        // 触发主题变化事件
+        this.dispatchThemeChangeEvent(theme);
+    }
+    
+    updateThemeIcon(theme) {
+        if (this.themeIcon) {
+            // 添加旋转动画
+            this.themeIcon.style.transform = 'rotate(180deg)';
+            
+            setTimeout(() => {
+                this.themeIcon.textContent = theme === 'light' ? '☀️' : '🌙';
+                this.themeIcon.style.transform = 'rotate(0deg)';
+            }, 150);
         }
         
-        lastScrollTop = scrollTop;
-    });
+        // 更新按钮 aria-label
+        if (this.themeToggleBtn) {
+            const label = theme === 'light' ? '切换到深色主题' : '切换到浅色主题';
+            this.themeToggleBtn.setAttribute('aria-label', label);
+        }
+    }
+    
+    addThemeTransition() {
+        // 为平滑过渡添加临时类
+        document.documentElement.classList.add('theme-transition');
+        
+        setTimeout(() => {
+            document.documentElement.classList.remove('theme-transition');
+        }, 300);
+    }
+    
+    getStoredTheme() {
+        // 从 localStorage 获取存储的主题
+        try {
+            return localStorage.getItem('preferred-theme');
+        } catch (e) {
+            console.warn('无法访问 localStorage，使用默认主题');
+            return null;
+        }
+    }
+    
+    storeTheme(theme) {
+        // 将主题偏好存储到 localStorage
+        try {
+            localStorage.setItem('preferred-theme', theme);
+        } catch (e) {
+            console.warn('无法存储主题偏好到 localStorage');
+        }
+    }
+    
+    getSystemTheme() {
+        // 检测系统主题偏好
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            return 'dark';
+        }
+        return 'light';
+    }
+    
+    watchSystemTheme() {
+        // 监听系统主题变化
+        if (window.matchMedia) {
+            const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+            
+            mediaQuery.addEventListener('change', (e) => {
+                // 只有在用户没有手动设置主题时才跟随系统主题
+                if (!this.getStoredTheme()) {
+                    const systemTheme = e.matches ? 'dark' : 'light';
+                    this.setTheme(systemTheme);
+                }
+            });
+        }
+    }
+    
+    dispatchThemeChangeEvent(theme) {
+        // 触发自定义事件，其他组件可以监听主题变化
+        const event = new CustomEvent('themeChange', {
+            detail: { theme: theme }
+        });
+        document.dispatchEvent(event);
+    }
+    
+    // 公共方法：获取当前主题
+    getCurrentTheme() {
+        return this.currentTheme;
+    }
+    
+    // 公共方法：检查是否为深色主题
+    isDarkTheme() {
+        return this.currentTheme === 'dark';
+    }
 }
 
-// 滚动动画初始化
-function initScrollAnimations() {
-    // 创建 Intersection Observer 用于触发动画
-    const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-    };
+// 主题相关的 CSS 过渡动画
+const themeTransitionCSS = `
+    .theme-transition,
+    .theme-transition *,
+    .theme-transition *:before,
+    .theme-transition *:after {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        transition-delay: 0 !important;
+    }
+    
+    .theme-toggle {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .theme-toggle:hover {
+        transform: translateY(-2px) scale(1.05);
+    }
+    
+    .theme-toggle:active {
+        transform: translateY(0) scale(0.95);
+    }
+    
+    .theme-icon {
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        display: inline-block;
+    }
+`;
 
-    const observer = new IntersectionObserver(function(entries) {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('animate');
-            }
-        });
-    }, observerOptions);
-
-    // 观察所有需要动画的元素
-    const animatedElements = document.querySelectorAll('.project-card, .hobby-card, .blog-card, .timeline-item');
-    animatedElements.forEach(el => {
-        observer.observe(el);
-    });
-
-    // 添加渐入动画的CSS类
+// 添加主题相关样式
+function addThemeStyles() {
     const style = document.createElement('style');
-    style.textContent = `
-        .project-card, .hobby-card, .blog-card, .timeline-item {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-        }
-        
-        .project-card.animate, .hobby-card.animate, .blog-card.animate, .timeline-item.animate {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    `;
+    style.textContent = themeTransitionCSS;
     document.head.appendChild(style);
 }
 
-// 联系表单处理
-function initContactForm() {
-    const contactForm = document.getElementById('contact-form');
+// 主题切换功能的工具函数
+const ThemeUtils = {
+    // 获取当前主题
+    getCurrentTheme() {
+        return document.documentElement.getAttribute('data-theme') || 'light';
+    },
     
-    if (contactForm) {
-        contactForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // 获取表单数据
-            const formData = new FormData(contactForm);
-            const data = {
-                name: formData.get('name'),
-                email: formData.get('email'),
-                subject: formData.get('subject'),
-                message: formData.get('message')
-            };
-            
-            // 表单验证
-            if (validateForm(data)) {
-                // 这里可以添加实际的表单提交逻辑
-                showFormFeedback('success', '消息发送成功！我会尽快回复您。');
-                contactForm.reset();
-            }
+    // 检查是否为深色主题
+    isDarkTheme() {
+        return this.getCurrentTheme() === 'dark';
+    },
+    
+    // 监听主题变化
+    onThemeChange(callback) {
+        document.addEventListener('themeChange', (e) => {
+            callback(e.detail.theme);
         });
+    },
+    
+    // 根据主题获取颜色值
+    getThemeColor(colorName) {
+        const style = getComputedStyle(document.documentElement);
+        return style.getPropertyValue(`--${colorName}`).trim();
     }
-}
-
-function validateForm(data) {
-    const errors = [];
-    
-    if (!data.name.trim()) {
-        errors.push('请填写姓名');
-    }
-    
-    if (!data.email.trim()) {
-        errors.push('请填写邮箱');
-    } else if (!isValidEmail(data.email)) {
-        errors.push('请填写有效的邮箱地址');
-    }
-    
-    if (!data.subject) {
-        errors.push('请选择主题');
-    }
-    
-    if (!data.message.trim()) {
-        errors.push('请填写留言内容');
-    }
-    
-    if (errors.length > 0) {
-        showFormFeedback('error', errors.join('\n'));
-        return false;
-    }
-    
-    return true;
-}
-
-function isValidEmail(email) {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-}
-
-function showFormFeedback(type, message) {
-    // 移除现有的反馈消息
-    const existingFeedback = document.querySelector('.form-feedback');
-    if (existingFeedback) {
-        existingFeedback.remove();
-    }
-    
-    // 创建新的反馈消息
-    const feedback = document.createElement('div');
-    feedback.className = `form-feedback ${type}`;
-    feedback.textContent = message;
-    
-    // 添加样式
-    const style = `
-        padding: 1rem;
-        margin: 1rem 0;
-        border-radius: 8px;
-        font-weight: 500;
-        ${type === 'success' 
-            ? 'background: #d1fae5; color: #065f46; border: 1px solid #10b981;'
-            : 'background: #fee2e2; color: #991b1b; border: 1px solid #ef4444;'
-        }
-    `;
-    feedback.style.cssText = style;
-    
-    // 插入到表单前面
-    const contactForm = document.getElementById('contact-form');
-    contactForm.parentNode.insertBefore(feedback, contactForm);
-    
-    // 3秒后自动移除
-    setTimeout(() => {
-        if (feedback.parentNode) {
-            feedback.remove();
-        }
-    }, 3000);
-}
-
-// 博客卡片功能
-function initBlogCards() {
-    const blogCards = document.querySelectorAll('.blog-card');
-    
-    blogCards.forEach(card => {
-        card.addEventListener('click', function() {
-            const postId = card.dataset.post;
-            // 这里可以添加博客文章展开逻辑
-            console.log(`打开博客文章 ${postId}`);
-        });
-    });
-}
-
-// 平滑滚动
-function initSmoothScroll() {
-    // 处理锚点链接的平滑滚动
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
-            
-            if (target) {
-                const navbarHeight = document.querySelector('.navbar').offsetHeight;
-                const targetPosition = target.offsetTop - navbarHeight;
-                
-                window.scrollTo({
-                    top: targetPosition,
-                    behavior: 'smooth'
-                });
-            }
-        });
-    });
-}
-
-// 工具函数：防抖
-function debounce(func, wait) {
-    let timeout;
-    return function executedFunction(...args) {
-        const later = () => {
-            clearTimeout(timeout);
-            func(...args);
-        };
-        clearTimeout(timeout);
-        timeout = setTimeout(later, wait);
-    };
-}
-
-// 工具函数：节流
-function throttle(func, limit) {
-    let lastFunc;
-    let lastRan;
-    return function() {
-        const context = this;
-        const args = arguments;
-        if (!lastRan) {
-            func.apply(context, args);
-            lastRan = Date.now();
-        } else {
-            clearTimeout(lastFunc);
-            lastFunc = setTimeout(function() {
-                if ((Date.now() - lastRan) >= limit) {
-                    func.apply(context, args);
-                    lastRan = Date.now();
-                }
-            }, limit - (Date.now() - lastRan));
-        }
-    };
-}
-
-// 获取元素在页面中的位置
-function getElementPosition(element) {
-    const rect = element.getBoundingClientRect();
-    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-    const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
-    
-    return {
-        top: rect.top + scrollTop,
-        left: rect.left + scrollLeft,
-        width: rect.width,
-        height: rect.height
-    };
-}
-
-// 检查元素是否在视口中
-function isElementInViewport(element) {
-    const rect = element.getBoundingClientRect();
-    return (
-        rect.top >= 0 &&
-        rect.left >= 0 &&
-        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
-        rect.right <= (window.innerWidth || document.documentElement.clientWidth)
-    );
-}
-
-// 导出主要函数以供其他模块使用
-window.AppUtils = {
-    debounce,
-    throttle,
-    getElementPosition,
-    isElementInViewport,
-    showFormFeedback
 };
+
+// 初始化主题切换功能
+document.addEventListener('DOMContentLoaded', function() {
+    // 添加主题样式
+    addThemeStyles();
+    
+    // 创建主题切换实例
+    window.themeToggle = new ThemeToggle();
+    
+    // 将工具函数添加到全局
+    window.ThemeUtils = ThemeUtils;
+    
+    console.log('主题切换功能已初始化');
+});
+
+// 导出类和工具函数
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = { ThemeToggle, ThemeUtils };
+}
