@@ -1,46 +1,447 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-  <title>我的个人主页</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Zhang Yitong - AI × 医疗开发者，专注药物协同预测与边缘计算">
+    <meta name="keywords" content="AI,医疗,药物协同预测,边缘计算,Web开发">
+    <title>Zhang Yitong - 探索 AI × 医疗的开发者</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.min.js"></script>
 </head>
-<body class="light">
+<body>
+    <!-- 主题切换按钮 -->
+    <button id="theme-toggle" class="theme-toggle" aria-label="切换主题">
+        <span class="theme-icon">☀️</span>
+    </button>
 
-  <!-- 导航栏 -->
-  <nav>
-    <h2>My Portfolio</h2>
-    <ul>
-      <li><a href="#hero">首页</a></li>
-      <li><a href="#about">关于我</a></li>
-      <li><a href="#projects">项目</a></li>
-      <li><a href="#hobbies">兴趣</a></li>
-    </ul>
-    <button id="theme-toggle">☀️</button>
-  </nav>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <span>Zhang Yitong</span>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="#hero" class="nav-link">首页</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#about" class="nav-link">关于我</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#projects" class="nav-link">我的项目</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#story" class="nav-link">我的故事</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#hobbies" class="nav-link">兴趣爱好</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#blog" class="nav-link">博客</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#contact" class="nav-link">联系我</a>
+                </li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
 
-  <!-- Hero 区域 -->
-  <section id="hero">
-    <h1 id="typewriter"></h1>
-  </section>
+    <!-- 首页 Hero 区域 -->
+    <section id="hero" class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">
+                <span id="typewriter-text"></span>
+                <span class="cursor">|</span>
+            </h1>
+            <p class="hero-subtitle">探索 AI × 医疗的无限可能</p>
+            <div class="hero-buttons">
+                <a href="#about" class="btn btn-primary">了解更多</a>
+                <a href="#contact" class="btn btn-secondary">联系我</a>
+            </div>
+        </div>
+        <div class="hero-background">
+            <div class="floating-particles"></div>
+        </div>
+    </section>
 
-  <!-- 关于我 -->
-  <section id="about">
-    <h2>关于我</h2>
-    <div id="timeline"></div>
-  </section>
+    <!-- 关于我 -->
+    <section id="about" class="about">
+        <div class="container">
+            <h2 class="section-title">关于我</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <p class="about-intro">
+                        我是一名专注于 AI × 医疗领域的开发者与研究者，目前专注于药物协同预测与边缘计算技术的探索。
+                        作为 Slytherin 学院的 INTJ 性格者，我相信技术的力量能够改变世界，永远在进化的路上。
+                    </p>
+                    <div class="about-tags">
+                        <span class="tag">AI × 医疗</span>
+                        <span class="tag">药物协同预测</span>
+                        <span class="tag">边缘计算</span>
+                        <span class="tag">INTJ</span>
+                        <span class="tag">Slytherin</span>
+                        <span class="tag">插画创作者</span>
+                    </div>
+                </div>
+                <div class="skills-section">
+                    <h3>技能展示</h3>
+                    <div class="skills-bars">
+                        <div class="skill-item">
+                            <div class="skill-info">
+                                <span>JavaScript</span>
+                                <span>85%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="85"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-info">
+                                <span>机器学习</span>
+                                <span>88%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="88"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-info">
+                                <span>Vue.js</span>
+                                <span>85%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="85"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-info">
+                                <span>Node.js</span>
+                                <span>80%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="80"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-info">
+                                <span>MySQL</span>
+                                <span>75%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-width="75"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="skills-radar">
+                        <canvas id="skillsChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-  <!-- 我的技能 -->
-  <section id="projects">
-    <h2>技能图</h2>
-    <canvas id="skillsChart"></canvas>
-  </section>
+    <!-- 我的项目 -->
+    <section id="projects" class="projects">
+        <div class="container">
+            <h2 class="section-title">我的项目</h2>
+            <p class="section-subtitle">看看我做过什么，作品比语言更有说服力</p>
+            <div class="projects-grid">
+                <div class="project-card">
+                    <div class="project-image">
+                        <div class="project-placeholder">🧬</div>
+                    </div>
+                    <div class="project-content">
+                        <h3>药物协同预测系统</h3>
+                        <p>基于知识嵌入-动态超图-对比学习框架的创新药物协同预测系统，提升预测准确性与泛化能力。</p>
+                        <div class="project-tags">
+                            <span class="tag">Python</span>
+                            <span class="tag">深度学习</span>
+                            <span class="tag">图神经网络</span>
+                            <span class="tag">药物发现</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="#" class="btn btn-small">查看详情</a>
+                            <a href="#" class="btn btn-small btn-secondary">GitHub</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="project-image">
+                        <div class="project-placeholder">⏰</div>
+                    </div>
+                    <div class="project-content">
+                        <h3>个人时间胶囊系统</h3>
+                        <p>基于 Vue + Node.js + MySQL 的全栈时间胶囊系统，记录生活点滴，定时开启美好回忆。</p>
+                        <div class="project-tags">
+                            <span class="tag">Vue.js</span>
+                            <span class="tag">Node.js</span>
+                            <span class="tag">MySQL</span>
+                            <span class="tag">全栈开发</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="#" class="btn btn-small">查看详情</a>
+                            <a href="#" class="btn btn-small btn-secondary">GitHub</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="project-image">
+                        <div class="project-placeholder">🗄️</div>
+                    </div>
+                    <div class="project-content">
+                        <h3>数据库系统 A 课程项目</h3>
+                        <p>完整的数据库设计与实现项目，涵盖需求分析、ER建模、关系模式设计和系统实现。</p>
+                        <div class="project-tags">
+                            <span class="tag">数据库设计</span>
+                            <span class="tag">SQL</span>
+                            <span class="tag">系统分析</span>
+                            <span class="tag">后端开发</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="#" class="btn btn-small">查看详情</a>
+                            <a href="#" class="btn btn-small btn-secondary">文档</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="project-image">
+                        <div class="project-placeholder">🚀</div>
+                    </div>
+                    <div class="project-content">
+                        <h3>未来科研与合作项目</h3>
+                        <p>即将开展的 AI × 医疗领域创新项目，期待与更多研究者携手探索前沿技术。</p>
+                        <div class="project-tags">
+                            <span class="tag">AI</span>
+                            <span class="tag">医疗</span>
+                            <span class="tag">协作研究</span>
+                            <span class="tag">创新</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="#contact" class="btn btn-small">合作咨询</a>
+                            <a href="#" class="btn btn-small btn-secondary">了解更多</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-  <footer>
-    <p>© 2025 我的主页</p>
-  </footer>
+    <!-- 我的故事 -->
+    <section id="story" class="story">
+        <div class="container">
+            <h2 class="section-title">我的故事</h2>
+            <p class="section-subtitle">这里是我的故事，从经历到初心</p>
+            <div class="timeline-container">
+                <div class="timeline">
+                    <div class="timeline-item" data-year="2018">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <h3>大学入学</h3>
+                            <p>开始我的计算机科学与技术专业学习，初次接触编程世界的奇妙。</p>
+                            <div class="timeline-details">
+                                <p>在这个阶段，我对编程产生了浓厚的兴趣，从 C 语言开始，逐步学习了数据结构、算法等基础知识。同时也开始关注人工智能领域的发展。</p>
+                                <img src="#" alt="大学生活" class="timeline-image">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="timeline-item" data-year="2021">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <h3>药物协同预测项目启动</h3>
+                            <p>开始专注于 AI × 医疗领域，启动药物协同预测系统的研发工作。</p>
+                            <div class="timeline-details">
+                                <p>通过深入学习机器学习和图神经网络技术，我开始探索如何将 AI 技术应用于药物发现领域。这个项目让我真正理解了技术如何改变世界。</p>
+                                <img src="#" alt="科研项目" class="timeline-image">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="timeline-item" data-year="2022">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <h3>香港理工大学交流</h3>
+                            <p>获得宝贵的国际交流经验，拓展了学术视野和研究思路。</p>
+                            <div class="timeline-details">
+                                <p>在香港理工大学的交流学习中，我接触到了更前沿的研究方法和国际化的学术环境，这段经历极大地提升了我的研究能力和国际视野。</p>
+                                <img src="#" alt="香港交流" class="timeline-image">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="timeline-item" data-year="2023">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <h3>时间胶囊系统开发</h3>
+                            <p>完成个人时间胶囊系统的全栈开发，展示了完整的项目开发能力。</p>
+                            <div class="timeline-details">
+                                <p>这个项目让我从前端到后端，从设计到部署都有了深入的实践经验。使用 Vue.js + Node.js + MySQL 技术栈，实现了完整的用户系统和时间胶囊功能。</p>
+                                <img src="#" alt="项目开发" class="timeline-image">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-  <!-- 脚本入口 -->
-  <script type="module" src="js/main.js"></script>
+    <!-- 兴趣爱好 -->
+    <section id="hobbies" class="hobbies">
+        <div class="container">
+            <h2 class="section-title">兴趣爱好</h2>
+            <p class="section-subtitle">不止学习与代码，这里是我热爱的世界</p>
+            <div class="hobbies-grid">
+                <div class="hobby-card">
+                    <div class="hobby-icon">🎨</div>
+                    <h3>插画与手工</h3>
+                    <p>用画笔记录生活，用双手创造美好。从数字插画到手工制作，艺术是我表达内心世界的另一种语言。</p>
+                </div>
+                <div class="hobby-card">
+                    <div class="hobby-icon">⚡</div>
+                    <h3>哈利波特收藏</h3>
+                    <p>作为斯莱特林的忠实拥护者，收集各种哈利波特周边是我的小乐趣。魔法世界的智慧与勇气激励着我不断前行。</p>
+                </div>
+                <div class="hobby-card">
+                    <div class="hobby-icon">📸</div>
+                    <h3>周末生活记录</h3>
+                    <p>用镜头捕捉生活中的美好瞬间，记录成长路上的点点滴滴。每个周末都是新的故事开始。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 博客 -->
+    <section id="blog" class="blog">
+        <div class="container">
+            <h2 class="section-title">博客/文章</h2>
+            <p class="section-subtitle">记录我的思考与成长，偶尔也分享干货</p>
+            <div class="blog-grid">
+                <article class="blog-card" data-post="1">
+                    <div class="blog-meta">
+                        <span class="blog-date">2024.03.15</span>
+                        <span class="blog-category">技术</span>
+                    </div>
+                    <h3 class="blog-title">深度学习在药物发现中的应用与挑战</h3>
+                    <p class="blog-excerpt">探讨人工智能技术如何革新传统药物研发流程，以及目前面临的主要技术挑战...</p>
+                    <a href="#" class="blog-link">阅读全文 →</a>
+                </article>
+                <article class="blog-card" data-post="2">
+                    <div class="blog-meta">
+                        <span class="blog-date">2024.02.28</span>
+                        <span class="blog-category">学习</span>
+                    </div>
+                    <h3 class="blog-title">Vue 3 + TypeScript 开发经验总结</h3>
+                    <p class="blog-excerpt">从项目搭建到部署上线，分享 Vue 3 结合 TypeScript 的最佳实践和踩坑经验...</p>
+                    <a href="#" class="blog-link">阅读全文 →</a>
+                </article>
+                <article class="blog-card" data-post="3">
+                    <div class="blog-meta">
+                        <span class="blog-date">2024.02.10</span>
+                        <span class="blog-category">生活</span>
+                    </div>
+                    <h3 class="blog-title">香港交流学习心得：跨文化学术交流的收获</h3>
+                    <p class="blog-excerpt">记录在香港理工大学交流期间的学习体验，以及跨文化交流带来的思维碰撞...</p>
+                    <a href="#" class="blog-link">阅读全文 →</a>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- 联系我 -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <h2 class="section-title">联系我</h2>
+            <p class="section-subtitle">想合作？想交流？这里是你与我对话的入口</p>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <div class="contact-icon">📧</div>
+                        <div class="contact-details">
+                            <h4>邮箱</h4>
+                            <p>zhang.yitong@example.com</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">🔗</div>
+                        <div class="contact-details">
+                            <h4>GitHub</h4>
+                            <p>github.com/zhangyitong</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">💼</div>
+                        <div class="contact-details">
+                            <h4>LinkedIn</h4>
+                            <p>linkedin.com/in/zhangyitong</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">🎓</div>
+                        <div class="contact-details">
+                            <h4>科研邮箱</h4>
+                            <p>research.zt@university.edu</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="contact-form">
+                    <form id="contact-form">
+                        <div class="form-group">
+                            <label for="name">姓名</label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">邮箱</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="subject">主题</label>
+                            <select id="subject" name="subject" required>
+                                <option value="">请选择主题</option>
+                                <option value="collaboration">学术合作</option>
+                                <option value="project">项目咨询</option>
+                                <option value="exchange">技术交流</option>
+                                <option value="other">其他</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">留言</label>
+                            <textarea id="message" name="message" rows="5" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">发送消息</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-text">
+                    <p>&copy; 2024 Zhang Yitong. All rights reserved.</p>
+                    <p class="footer-slogan">"Coding the future, one molecule at a time."</p>
+                </div>
+                <div class="footer-links">
+                    <a href="#hero">回到顶部</a>
+                    <a href="mailto:zhang.yitong@example.com">邮件联系</a>
+                    <a href="#" target="_blank">GitHub</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript 文件 -->
+    <script src="js/main.js"></script>
+    <script src="js/themeToggle.js"></script>
+    <script src="js/typewriter.js"></script>
+    <script src="js/timeline.js"></script>
+    <script src="js/skills.js"></script>
 </body>
 </html>
