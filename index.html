@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Zhang Yitong - AI × 医疗开发者，专注药物协同预测与边缘计算">
+    <title>Zhang Yitong - 探索 AI × 医疗的开发者</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+<body>
+    <!-- 粒子背景 Canvas -->
+    <canvas id="particle-canvas"></canvas>
+
+    <!-- 主题切换按钮 -->
+    <button id="theme-toggle" class="theme-toggle" aria-label="切换主题">
+        <span class="theme-icon"></span>
+    </button>
+
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo"><span>Zhang Yitong</span></div>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="#hero" class="nav-link">首页</a></li>
+                <li class="nav-item"><a href="#about" class="nav-link">关于我</a></li>
+                <li class="nav-item"><a href="#projects" class="nav-link">项目</a></li>
+                <li class="nav-item"><a href="#timeline" class="nav-link">故事</a></li>
+                <li class="nav-item"><a href="#blog" class="nav-link">博客</a></li>
+                <li class="nav-item"><a href="#contact" class="nav-link">联系</a></li>
+            </ul>
+            <div class="hamburger"><span class="bar"></span><span class="bar"></span><span class="bar"></span></div>
+        </div>
+    </nav>
+
+     <!-- 首页 Hero 区域 -->
+    <section id="hero" class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title"><span id="typewriter-text"></span><span class="cursor">|</span></h1>
+            <p class="hero-subtitle">探索 AI × 医疗的无限可能</p>
+            <div class="hero-buttons"><a href="#projects" class="btn btn-primary">查看项目</a><a href="#contact" class="btn btn-secondary">联系我</a></div>
+        </div>
+    </section>
+
+    <!-- 关于我 -->
+    <section id="about" class="about">
+        <div class="container reveal">
+            <h2 class="section-title">关于我</h2>
+            <div class="about-content">
+                <div class="about-avatar"><img src="./img/myphoto.jpg" alt="Zhang Yitong's Avatar"></div>
+                <div class="about-text">
+                    <p class="about-intro">
+    我是一名专注于 <strong>AI × 医疗</strong> 领域的开发者与研究者，目前专注于<strong>药物协同预测</strong>与<strong>边缘计算</strong>技术的探索。作为 Slytherin 学院的 INTJ 性格者，我相信技术的力量能够改变世界，永远在进化的路上。
+</p>
+<div class="about-awards-block">
+    <h3 class="about-awards-title">获奖经历</h3>
+    <ul class="about-awards-list">
+        <li>🏆 2024 校数学建模竞赛二等奖</li>
+        <li>🏅 2024 校学业二等奖学金</li>
+        <li>🏅 2024 校实践教育学金</li>
+    </ul>
+</div>
+<div class="about-tags">
+    <span class="tag">AI × 医疗</span>
+    <span class="tag">药物协同预测</span>
+    <span class="tag">边缘计算</span>
+    <span class="tag">INTJ</span>
+    <span class="tag">Slytherin</span>
+</div>
+                </div>
+            </div>
+            <div class="skills-section reveal"></div>
+        </div>
+    </section>
+    
+    <!-- 足迹地图 -->
+    <section id="travel" class="travel-map-section">
+        <div class="container reveal">
+            <h2 class="section-title">我的足迹</h2>
+            <div id="travel-map"></div>
+        </div>
+    </section>
+
+        <!-- 我的项目 -->
+    <section id="projects" class="projects">
+        <div class="container reveal">
+            <h2 class="section-title">我的项目</h2>
+            <p class="section-subtitle">
+                以下项目列表实时从我的 GitHub 拉取，展示最新动态
+            </p>
+
+            <!-- 筛选按钮将由 JS 动态注入到这里 -->
+            <div id="project-filters" class="project-filters"></div>
+
+            <!-- 项目卡片将由 JS 动态注入到这里 -->
+            <div id="projects-grid" class="projects-grid">
+                <!-- 初始加载状态会显示在这里 -->
+            </div>
+        </div>
+    </section>
+
+        <!-- 我的故事 -->
+    <section id="timeline" class="timeline-section">
+        <div class="container reveal">
+            <h2 class="section-title">我的成长时间轴</h2>
+            <p class="section-subtitle">点击节点卡片，展开我的故事</p>
+            <div class="timeline">
+
+                <!-- 节点 1: 开启编程之路 -->
+                <div class="timeline-item" data-side="left">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-header">
+                            <h3>大学启航 & 编程奠基</h3>
+                            <span class="timeline-date">2023.9</span>
+                        </div>
+                        <div class="timeline-excerpt">
+                            <p>进入大学，系统化学习C语言与Python，为未来的技术探索奠定了坚实的编程基础。</p>
+                        </div>
+                        <div class="timeline-detail">
+                            <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wzOTBiZW18MHwxfGFsbHx8fHx8fHx8fDE3MTgxMDM5NDV8&ixlib=rb-4.0.3&q=80&w=400" alt="Code on a screen">
+                            <p>这一年，我正式踏入计算机科学的大门。通过对C语言和Python的深入学习，我不仅掌握了编程的基本范式，更培养了计算思维和解决问题的逻辑能力，这一切都成为了我后续深入AI和全栈领域的起点。</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 节点 2: 迈入AI科研 -->
+                <div class="timeline-item" data-side="right">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-header">
+                            <h3>迈入AI科研 & 药物协同</h3>
+                            <span class="timeline-date">2024.6</span>
+                        </div>
+                         <div class="timeline-excerpt">
+                            <p>加入校智能植物工厂实验室，正式投身AI科研，参与核心项目“药物协同预测系统”的研发。</p>
+                        </div>
+                        <div class="timeline-detail">
+                             <img src="https://images.unsplash.com/photo-1532187863486-abf9dbad1b69?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wzOTBiZW18MHwxfGFsbHx8fHx8fHx8fDE3MTgxMDQwMTZ8&ixlib=rb-4.0.3&q=80&w=400" alt="Scientific research and molecules">
+                             <p>这是一个重要的转折点。我开始将理论知识应用于前沿的AI医疗领域，深入研究知识嵌入、动态超图及对比学习框架，致力于通过算法解决复杂的生物医学问题。</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 节点 3: 全栈与边缘计算实践 -->
+                <div class="timeline-item" data-side="left">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-header">
+                            <h3>全栈实践 & 边缘计算</h3>
+                            <span class="timeline-date">2024.12</span>
+                        </div>
+                         <div class="timeline-excerpt">
+                            <p>参与“智云体测系统”研发与挑战杯竞赛，完整地经历了从前端到后端的开发流程，并首次接触边缘计算技术。</p>
+                        </div>
+                         <div class="timeline-detail">
+                             <img src="https://images.unsplash.com/photo-1517420704952-d9f39e95b43e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wzOTBiZW18MHwxfGFsbHx8fHx8fHx8fDE3MTgxMDQxMDd8&ixlib=rb-4.0.3&q=80&w=400" alt="Servers and data">
+                            <p>这次经历极大地锻炼了我的工程实践能力。我不仅熟悉了前后端分离的开发模式，还学习了如何将计算任务部署到边缘设备，为数据处理的实时性和隐私性提供了新的解决方案。</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 节点 4: 主持省级创新项目 -->
+                <div class="timeline-item" data-side="right">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-header">
+                            <h3>主持省级创新项目</h3>
+                            <span class="timeline-date">2025.4</span>
+                        </div>
+                         <div class="timeline-excerpt">
+                            <p>凭借在“药物协同预测系统”项目中的积累，成功主持该项目立项为省级大学生创新创业训练计划项目。</p>
+                        </div>
+                        <div class="timeline-detail">
+                             <p>这次经历不仅是对我技术能力的肯定，更全面锻炼了我的项目管理、团队协作和文档撰写能力。我学会了如何从0到1地规划一个项目，并带领团队向着共同的目标前进。</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 节点 5: 独立开发与部署 -->
+                <div class="timeline-item" data-side="left">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-header">
+                            <h3>独立开发 & 云端部署</h3>
+                            <span class="timeline-date">2025.6</span>
+                        </div>
+                         <div class="timeline-excerpt">
+                            <p>独立完成“个人时间胶囊系统”的开发，采用Vue+Node.js+MySQL技术栈，并成功部署至阿里云服务器。</p>
+                        </div>
+                         <div class="timeline-detail">
+                            <img src="https://images.unsplash.com/photo-1587620962725-abab7fe55159?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wzOTBiZW18MHwxfGFsbHx8fHx8fHx8fDE3MTgxMDQzMTN8&ixlib=rb-4.0.3&q=80&w=400" alt="Personal coding setup">
+                            <p>这个项目是我技术能力的综合体现。从需求分析、数据库设计到前后端编码，再到最终的服务器运维和部署，我完整地走完了软件开发的全生命周期，积累了宝贵的独立开发经验。</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 节点 6: 赴港交流学习 -->
+                <div class="timeline-item" data-side="right">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-header">
+                            <h3>赴港交流 & 学术深造</h3>
+                            <span class="timeline-date">2025.7</span>
+                        </div>
+                         <div class="timeline-excerpt">
+                            <p>赴香港理工大学进行暑期交流学习，拓宽国际视野，并参与“编程教育”相关的综述项目论文撰写。</p>
+                        </div>
+                        <div class="timeline-detail">
+                            <img src="./img/hk.jpg" alt="Hong Kong city skyline">
+                            <p>在国际化的学术环境中，我接触到了不同的研究范式和思维方式。参与编程教育的学术研究，让我对技术的本质和传播方式有了更深层次的思考。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 博客 -->
+    <section id="blog" class="blog">
+        <div class="container reveal">
+            <h2 class="section-title">博客 / 文章</h2>
+            <p class="section-subtitle">记录我的思考、分享与成长</p>
+            <div id="blog-container">
+                <div class="posts-list"></div>
+                <div class="post-content-wrapper">
+                    <button class="back-to-posts btn btn-secondary" aria-label="返回文章列表"><span aria-hidden="true">←</span> 返回列表</button>
+                    <div class="post-content"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+     <!-- 联系我 -->
+    <section id="contact" class="contact">
+        <div class="container reveal">
+            <h2 class="section-title">联系我</h2>
+            <p class="section-subtitle">期待与你交流与合作</p>
+            <div class="contact-grid">
+                <div class="contact-info">
+                    <a href="mailto:yitong12130@gmail.com" class="contact-item">📧 yitong12130@gmail.com</a>
+                    <a href="https://github.com/Layla12130" target="_blank" class="contact-item">🔗 github.com/Layla12130</a>
+                    <a href="https://linkedin.com/in/zhangyitong" target="_blank" class="contact-item">💼 linkedin.com/in/zhangyitong</a>
+                </div>
+                <form id="contact-form" class="contact-form">
+                    <div class="form-group"><input type="text" id="name" name="name" required placeholder="姓名"></div>
+                    <div class="form-group"><input type="email" id="email" name="email" required placeholder="邮箱"></div>
+                    <div class="form-group"><textarea id="message" name="message" rows="5" required placeholder="留言"></textarea></div>
+                    <button type="submit" class="btn btn-primary">发送消息</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Zhang Yitong. All Rights Reserved.</p>
+            <p class="footer-slogan">"Coding the future, one molecule at a time."</p>
+        </div>
+    </footer>
+
+    <!-- 全局加载指示器 -->
+    <div class="loading-indicator"><div class="loading-spinner"></div></div>
+
+    <!-- JavaScript 文件 -->
+    <script src="js/themeToggle.js"></script>
+    <script src="js/typewriter.js"></script>
+    <script src="js/travelMap.js"></script>
+    <script src="js/skills.js"></script>
+    <script src="js/timeline.js"></script>
+    <script src="js/blogSystem.js"></script>
+    <script src="js/particleBackground.js"></script> <!-- 新增 -->
+    <script src="js/konami.js"></script> <!-- 新增 -->
+    <script src="js/projectManager.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
